@@ -27,7 +27,7 @@ export const Tag = forwardRef<HTMLDivElement, TagProps>((props, ref) => {
   const { className, children, ...rest } = props;
 
   return (
-    <span ref={ref} className={cn(tagVariants(), className)} {...rest}>
+    <span ref={ref} className={cn(tagVariants(), props['aria-selected'] ? 'bg-slate-100' : '', className)} {...rest}>
       {children}
     </span>
   );

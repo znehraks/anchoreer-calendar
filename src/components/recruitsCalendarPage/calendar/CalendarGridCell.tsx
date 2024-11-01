@@ -9,7 +9,7 @@ export function CalendarGridCell({ date, duties }: { date: string; duties: IDuty
       </div>
       <div className="min-h-fit flex flex-col border-t">
         {duties.map((duty) => (
-          <div key={duty.id} className="flex-1 flex justify-center items-center">
+          <div key={duty.id} className="h-20 flex justify-center items-center">
             <Typography>{duty.name}</Typography>
           </div>
         ))}

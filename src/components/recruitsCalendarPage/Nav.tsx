@@ -7,7 +7,7 @@ import { IconButton } from '../common/IconButton';
 import { Typography } from '../common/Typography';
 import { JobFilterButton } from './jobFilter/JobFilterButton';
 import { JobFilterModal } from './jobFilter/JobFilterModal';
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { currentYearAndMonthAtom } from '../../store/calendar';
 import dayjs from 'dayjs';
@@ -59,7 +59,9 @@ export function Nav() {
         </IconButton>
       </div>
       <JobFilterButton onClick={() => setIsFilterModalOpen((prev) => !prev)} />
-      <JobFilterModal open={isFilterModalOpen} topOffset={topOffset} />
+      <Suspense>
+        <JobFilterModal open={isFilterModalOpen} topOffset={topOffset} />
+      </Suspense>
     </div>
   );
 }
