@@ -10,7 +10,7 @@ export interface IDuty {
 }
 
 async function getDuties() {
-  return api.get<IDuty[]>('/duties').then((res) => res.data);
+  return api.get<IDuty[]>('/duties.json').then((res) => res.data);
 }
 
 export function useGetDuties() {

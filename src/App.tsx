@@ -1,13 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Nav } from './components/recruitsCalendarPage/Nav';
+import { RecruitsCalendarPage } from './components/recruitsCalendarPage/RecruitsCalendarPage';
 
 function App() {
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className={'w-screen h-screen min-w-[768px]'}>
-        <Nav />
+      <div className={'w-screen min-h-screen min-w-[768px]'}>
+        <RecruitsCalendarPage />
       </div>
     </QueryClientProvider>
   );

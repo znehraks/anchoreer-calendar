@@ -7,7 +7,7 @@ export function JobFilterButton({ onClick }: { onClick: () => void }) {
       role="button"
       tabIndex={0}
       onClick={onClick}
-      className="transition-colors flex flex-row justify-between items-center rounded-md border-2 px-1 absolute right-0 hover:bg-slate-100"
+      className="transition-colors h-full flex flex-row justify-between items-center rounded-md border-2 px-1 absolute right-0 hover:bg-slate-100"
     >
       <div className="w-28 flex flex-col">
         <Typography variant="content">직무</Typography>

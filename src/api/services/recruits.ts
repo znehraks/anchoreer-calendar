@@ -14,8 +14,8 @@ export interface IRecruit {
   duty_ids: IDuty['id'][];
 }
 
-function getRecruits() {
-  return api.get<IRecruit[]>('/recruits').then((res) => res.data);
+async function getRecruits() {
+  return api.get<IRecruit[]>('/recruits.json').then((res) => res.data);
 }
 
 export function useGetRecruits() {

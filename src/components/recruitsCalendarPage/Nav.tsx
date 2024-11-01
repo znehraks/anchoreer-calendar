@@ -7,10 +7,14 @@ import { IconButton } from '../common/IconButton';
 import { Typography } from '../common/Typography';
 import { JobFilterButton } from './jobFilter/JobFilterButton';
 import { JobFilterModal } from './jobFilter/JobFilterModal';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useAtom } from 'jotai';
+import { currentYearAndMonthAtom } from '../../store/calendar';
+import dayjs from 'dayjs';
 
 export function Nav() {
   const navWrapperRef = useRef<HTMLDivElement>(null);
+  const [currentYearAndMonth, setCurrentYearAndMonth] = useAtom(currentYearAndMonthAtom);
   const [topOffset, setTopOffset] = useState<number | null>(null);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
@@ -21,17 +25,37 @@ export function Nav() {
     }
   }, []);
 
+  const handleMonthChange = useCallback(
+    (direction: 'prev' | 'next') => {
+      const currentDate = dayjs(`${currentYearAndMonth.year}-${currentYearAndMonth.month}-01`);
+      const newDate = direction === 'prev' ? currentDate.subtract(1, 'month') : currentDate.add(1, 'month');
+
+      setCurrentYearAndMonth({
+        year: newDate.year(),
+        month: newDate.month() + 1,
+      });
+    },
+    [currentYearAndMonth, setCurrentYearAndMonth],
+  );
+
   return (
     <div ref={navWrapperRef} className="relative w-full h-12 flex justify-center items-center">
       <div className="flex justify-center items-center gap-4 flex-1">
         <IconButton>
-          <ChevronLeft className="text-gray-400" />
+          <ChevronLeft className="text-gray-400" role="button" tabIndex={0} onClick={() => handleMonthChange('prev')} />
         </IconButton>
         <Typography variant="title" color="brand">
-          2024.11
+          {`${currentYearAndMonth.year}.${currentYearAndMonth.month}`}
         </Typography>
         <IconButton>
-          <ChevronRight className="text-gray-400" />
+          <ChevronRight
+            className="text-gray-400"
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              handleMonthChange('next');
+            }}
+          />
         </IconButton>
       </div>
       <JobFilterButton onClick={() => setIsFilterModalOpen((prev) => !prev)} />
