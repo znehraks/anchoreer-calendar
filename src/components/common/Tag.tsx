@@ -5,7 +5,8 @@ import { cn } from '../../utils';
 const tagVariants = cva('', {
   variants: {
     variant: {
-      default: 'bg-white text-gray-800 rounded-full border-2 p-2',
+      default:
+        'bg-white text-gray-800 rounded-full border-2 px-2 py-1 cursor-pointer transition-colors hover:bg-slate-100',
     },
     size: {
       medium: 'text-sm',

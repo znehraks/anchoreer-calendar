@@ -20,7 +20,16 @@ export type CheckboxProps = VariantProps<typeof checkboxVariants> &
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
   const { size = 'medium', ...rest } = props;
-  return <input ref={ref} type="checkbox" className={cn(checkboxVariants({ size }), props.className)} {...rest} />;
+  return (
+    <input
+      ref={ref}
+      role="checkbox"
+      tabIndex={0}
+      type="checkbox"
+      className={cn(checkboxVariants({ size }), props.className)}
+      {...rest}
+    />
+  );
 });
 
 Checkbox.displayName = 'Checkbox';

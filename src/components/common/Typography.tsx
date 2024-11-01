@@ -22,10 +22,6 @@ const typographyVariants = cva('', {
       bold: 'font-bold',
     },
   },
-  defaultVariants: {
-    variant: 'content',
-    color: 'brand',
-  },
 });
 
 export interface TypographyProps extends VariantProps<typeof typographyVariants> {
@@ -34,7 +30,7 @@ export interface TypographyProps extends VariantProps<typeof typographyVariants>
 }
 
 const TitleTypography = forwardRef<HTMLHeadingElement, TypographyProps>((props, ref) => {
-  const { variant = 'title', color = 'brand', weight, className, children, ...rest } = props;
+  const { variant = 'title', color = 'default', weight, className, children, ...rest } = props;
 
   return (
     <h1 ref={ref} className={cn(typographyVariants({ variant, color, weight }), className)} {...rest}>
@@ -44,7 +40,7 @@ const TitleTypography = forwardRef<HTMLHeadingElement, TypographyProps>((props, 
 });
 
 const TextTypography = forwardRef<HTMLSpanElement, TypographyProps>((props, ref) => {
-  const { variant = 'content', color = 'brand', weight, className, children, ...rest } = props;
+  const { variant = 'content', color = 'default', weight, className, children, ...rest } = props;
 
   return (
     <span ref={ref} className={cn(typographyVariants({ variant, color, weight }), className)} {...rest}>

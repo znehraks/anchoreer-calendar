@@ -8,7 +8,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props,
   const { className, children, ...rest } = props;
 
   return (
-    <button ref={ref} className={className} {...rest}>
+    <button ref={ref} role="button" tabIndex={0} className={className} {...rest}>
       {children}
     </button>
   );
