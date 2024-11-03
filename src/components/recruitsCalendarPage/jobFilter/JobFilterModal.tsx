@@ -30,7 +30,6 @@ export function JobFilterModal({ open, topOffset }: { open: boolean; topOffset: 
       e.stopPropagation();
       if (itemType === 'root') {
         setActiveRootDutyId((prev) => (prev === dutyId ? null : dutyId));
-        setActiveParentDutyId(null);
         return;
       }
       if (itemType === 'parent') {
@@ -46,15 +45,23 @@ export function JobFilterModal({ open, topOffset }: { open: boolean; topOffset: 
       e.stopPropagation();
       switch (itemType) {
         case 'root': {
+          // 선택 해제 시, 지금 눌린 것과 그것의 자손들만 선택 해제 해야함
           // 모든 자손까지 다
-          const parentDuties = data?.filter((duty) => duty.parent_id === dutyId);
-          const childDuties = parentDuties?.flatMap((duty) =>
-            data?.filter((childDuty) => childDuty.parent_id === duty.id),
-          );
-          const allDuties = parentDuties?.concat(childDuties ?? []);
-          setActiveRootDutyId(dutyId);
           setSelectedDutyIds((prev) => {
-            return prev.includes(dutyId) ? [] : [...prev, dutyId, ...(allDuties?.map((duty) => duty.id) ?? [])];
+            if (prev.includes(dutyId)) {
+              const parentDuties = data?.filter((duty) => duty.parent_id === dutyId);
+              const childDuties = parentDuties?.flatMap((duty) =>
+                data?.filter((childDuty) => childDuty.parent_id === duty.id),
+              );
+              const allDuties = parentDuties?.concat(childDuties ?? []);
+              return prev.filter((id) => id !== dutyId && !(allDuties?.map((duty) => duty.id) ?? []).includes(id));
+            }
+            const parentDuties = data?.filter((duty) => duty.parent_id === dutyId);
+            const childDuties = parentDuties?.flatMap((duty) =>
+              data?.filter((childDuty) => childDuty.parent_id === duty.id),
+            );
+            const allDuties = parentDuties?.concat(childDuties ?? []);
+            return [...prev, dutyId, ...(allDuties?.map((duty) => duty.id) ?? [])];
           });
           return;
         }
@@ -70,7 +77,7 @@ export function JobFilterModal({ open, topOffset }: { open: boolean; topOffset: 
           return;
       }
     },
-    [data, setActiveParentDutyId, setActiveRootDutyId, setSelectedDutyIds],
+    [data, setActiveParentDutyId, setSelectedDutyIds],
   );
 
   const handleClickTag = useCallback(
