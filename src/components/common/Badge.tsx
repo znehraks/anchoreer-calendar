@@ -9,7 +9,7 @@ const badgeVariants = cva('', {
       default: 'bg-gray-700 text-gray-100',
     },
     size: {
-      small: 'w-2 h-2 text-xs rounded-4 p-[1px]',
+      small: 'w-3 h-3 text-xs rounded-4 flex justify-center items-center p-1',
     },
   },
 });
