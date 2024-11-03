@@ -28,7 +28,7 @@ function CalendarGridCell_({
       <div className="flex-1 flex justify-center items-center">
         <Typography>{date}</Typography>
       </div>
-      <div className="min-h-fit flex flex-col border-t">
+      <ul className="min-h-fit flex flex-col border-t">
         {startRecruits.map((recruit) => {
           return (
             <CalendarGridCellListItem
@@ -49,7 +49,7 @@ function CalendarGridCell_({
             />
           );
         })}
-      </div>
+      </ul>
     </div>
   );
 }

@@ -18,7 +18,7 @@ function CalendarGridCellListItem_({
   const setDetailRecruitId = useSetAtom(detailRecruitIdAtom);
 
   return (
-    <div
+    <li
       className={cn('h-5 flex items-center cursor-pointer gap-1 overflow-hidden px-1', visited && 'opacity-40')}
       onClick={() => setDetailRecruitId(recruitInfo.id)}
     >
@@ -28,7 +28,7 @@ function CalendarGridCellListItem_({
       <Typography variant="detail" className="max-w-fit whitespace-nowrap">
         {recruitInfo.company_name}
       </Typography>
-    </div>
+    </li>
   );
 }
 
