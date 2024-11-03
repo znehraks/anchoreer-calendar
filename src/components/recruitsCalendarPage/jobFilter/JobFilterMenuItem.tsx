@@ -3,12 +3,14 @@ import { Checkbox } from '../../common/Checkbox';
 import { IDuty } from '../../../api/services/duties';
 import React from 'react';
 import { cn } from '../../../utils';
+import { Typography } from '../../common/Typography';
 
 function _JobFilterMenuItem({
   active,
   selected,
   duty,
   hasChildren,
+  selectedChildrenCount,
   onClick,
   onSelect,
 }: {
@@ -16,6 +18,7 @@ function _JobFilterMenuItem({
   selected: boolean;
   duty: IDuty;
   hasChildren?: boolean;
+  selectedChildrenCount?: number;
   onClick: (dutyId: number) => (e: React.MouseEvent<HTMLDivElement>) => void;
   onSelect: (dutyId: number) => (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
@@ -36,7 +39,11 @@ function _JobFilterMenuItem({
         }}
         onChange={onSelect(duty.id)}
       />
-      <div className="flex-1 ">{duty.name}</div>
+      <div className="flex-1 flex flex-row gap-1">
+        <Typography>{duty.name}</Typography>
+        {selectedChildrenCount ? <Typography className="text-blue-500">{selectedChildrenCount}</Typography> : null}
+      </div>
+
       {hasChildren && <ChevronRight size={16} />}
     </div>
   );
@@ -48,5 +55,6 @@ export const JobFilterMenuItem = React.memo(
     prev.duty.id === next.duty.id &&
     prev.active === next.active &&
     prev.selected === next.selected &&
-    prev.hasChildren === next.hasChildren,
+    prev.hasChildren === next.hasChildren &&
+    prev.selectedChildrenCount === next.selectedChildrenCount,
 );

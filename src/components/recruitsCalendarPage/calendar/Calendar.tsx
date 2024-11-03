@@ -47,7 +47,7 @@ export function Calendar() {
   console.log('recruitsByDate', recruitsByDate);
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col px-1">
       <CalendarHeader />
       <CalendarGrid>
         {visibleDates.map(({ date }) => {

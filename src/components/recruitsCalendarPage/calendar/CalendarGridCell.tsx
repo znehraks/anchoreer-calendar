@@ -13,7 +13,7 @@ export function CalendarGridCell({
 }) {
   return (
     <div className="w-1/7 min-h-20 border-[1px] mt-[-1px] ml-[-1px]">
-      <div className="flex-1 flex justify-center items-center ">
+      <div className="flex-1 flex justify-center items-center">
         <Typography>{date}</Typography>
       </div>
       <div className="min-h-fit flex flex-col border-t">

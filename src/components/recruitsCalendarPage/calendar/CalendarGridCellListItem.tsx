@@ -4,11 +4,13 @@ import { Typography } from '../../common/Typography';
 
 export function CalendarGridCellListItem({ recruitInfo, type }: { recruitInfo: IRecruit; type: 'start' | 'end' }) {
   return (
-    <div className="h-5 flex items-center cursor-pointer gap-1">
+    <div className="h-5 flex items-center cursor-pointer gap-1 overflow-hidden px-1">
       <Badge variant={type === 'start' ? 'brand' : 'default'} size={'small'}>
         {type === 'start' ? '시' : '끝'}
       </Badge>
-      <Typography variant="detail">{recruitInfo.company_name}</Typography>
+      <Typography variant="detail" className="max-w-fit whitespace-nowrap">
+        {recruitInfo.company_name}
+      </Typography>
     </div>
   );
 }
