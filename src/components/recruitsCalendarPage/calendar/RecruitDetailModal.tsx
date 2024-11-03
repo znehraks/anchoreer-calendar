@@ -6,6 +6,7 @@ import { useSetAtom } from 'jotai';
 import { detailRecruitIdAtom } from '../../../store/calendar';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
+import { Backdrop } from '../../common/Backdrop';
 
 export function RecruitDetailModal({
   detailRecruitInfo,
@@ -27,12 +28,12 @@ export function RecruitDetailModal({
 
   return createPortal(
     <>
-      <div className="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-black opacity-50" />
+      <Backdrop />
       <div
-        className=" fixed top-0 left-0 right-0 bottom-0 w-screen h-screen flex justify-center items-center"
+        className=" fixed top-0 left-0 right-0 bottom-0 w-screen h-screen flex justify-center items-center "
         onClick={() => setDetailRecruitId(null)}
       >
-        <div className="relative min-w-[750px] w-4/5 h-screen flex flex-col  bg-white rounded-md">
+        <div className="relative min-w-[750px] w-4/5 h-screen flex flex-col  bg-white rounded-md overflow-auto">
           <div className="absolute top-3 right-5">
             <X size={20} className="text-gray-500 cursor-pointer" onClick={() => setDetailRecruitId(null)} />
           </div>

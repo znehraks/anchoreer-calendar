@@ -60,7 +60,7 @@ export function Nav() {
       </div>
       <JobFilterButton onClick={() => setIsFilterModalOpen((prev) => !prev)} />
       <Suspense>
-        <JobFilterModal open={isFilterModalOpen} topOffset={topOffset} />
+        <JobFilterModal open={isFilterModalOpen} setOpen={setIsFilterModalOpen} topOffset={topOffset} />
       </Suspense>
     </div>
   );

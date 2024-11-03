@@ -10,13 +10,16 @@ import { useDutyNavigation } from './useDutyNavigation';
 import { useDutySelection } from './useDutySelection';
 import { useGetDutyTreeIds } from './useGetDutyTreeIds';
 import { useGetDuties } from '../../../api/services/duties';
+import { Backdrop } from '../../common/Backdrop';
+import { createPortal } from 'react-dom';
 
 interface JobFilterModalProps {
   open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   topOffset: number | null;
 }
 
-export function JobFilterModal({ open, topOffset }: JobFilterModalProps) {
+export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps) {
   const { data: duties } = useGetDuties();
   const dutyHierarchy = useDutyHierarchy(duties);
   const { activeRootDutyId, activeParentDutyId, createHandleMenuItemClick } = useDutyNavigation(dutyHierarchy);
@@ -54,48 +57,28 @@ export function JobFilterModal({ open, topOffset }: JobFilterModalProps) {
     [handleSelectItem],
   );
 
-  return (
-    <div
-      className={`absolute top-0 w-full h-96 bg-gray-50 px-8 pt-6 pb-9 flex flex-col gap-4 overflow-hidden`}
-      style={{
-        display: open ? 'flex' : 'none',
-        transform: `translateY(${(topOffset ?? 0) + 2}px)`,
-      }}
-    >
-      <div className="flex flex-row gap-1">
-        <Typography variant="content">직무</Typography>
-        <Typography variant="content" className="text-blue-500">
-          {selectedLeafCount ? `${selectedLeafCount}` : ''}
-        </Typography>
-      </div>
-
-      <div className="flex-1 flex flex-row rounded-md border-2 min-h-0">
-        <JobFilterMenu>
-          {dutyHierarchy.rootDuties.map((duty) => (
-            <JobFilterMenuItem
-              key={duty.id}
-              active={activeRootDutyId === duty.id}
-              selected={selectedDutyIds.includes(duty.id)}
-              duty={{
-                id: duty.id,
-                name: duty.name,
-              }}
-              hasChildren={duty.children.length > 0}
-              selectedChildrenCount={getSelectedLeafCount(duty.id, selectedDutyIds)}
-              onClick={handleMenuItemClick}
-              onSelect={handleSelectItem}
-            />
-          ))}
-        </JobFilterMenu>
-
-        {!activeRootDutyId && <div className="flex-1 flex justify-center items-center">직무를 선택해 주세요.</div>}
-
-        {activeRootDutyId && (
+  return createPortal(
+    <>
+      <Backdrop className={open ? 'block' : 'hidden'} onClick={() => setOpen(false)} />
+      <div
+        className={`z-10 absolute top-0 w-full h-96 bg-gray-50 px-8 pt-6 pb-9 flex flex-col gap-4 overflow-hidden`}
+        style={{
+          display: open ? 'flex' : 'none',
+          transform: `translateY(${(topOffset ?? 0) + 2}px)`,
+        }}
+      >
+        <div className="flex flex-row gap-1">
+          <Typography variant="content">직무</Typography>
+          <Typography variant="content" className="text-blue-500">
+            {selectedLeafCount ? `${selectedLeafCount}` : ''}
+          </Typography>
+        </div>
+        <div className="flex-1 flex flex-row rounded-md border-2 min-h-0">
           <JobFilterMenu>
-            {activeParentDuties.map((duty) => (
+            {dutyHierarchy.rootDuties.map((duty) => (
               <JobFilterMenuItem
                 key={duty.id}
-                active={activeParentDutyId === duty.id}
+                active={activeRootDutyId === duty.id}
                 selected={selectedDutyIds.includes(duty.id)}
                 duty={{
                   id: duty.id,
@@ -108,18 +91,41 @@ export function JobFilterModal({ open, topOffset }: JobFilterModalProps) {
               />
             ))}
           </JobFilterMenu>
-        )}
 
-        {activeParentDutyId && (
-          <JobFilterTags>
-            {activeChildren.map((duty) => (
-              <Tag key={duty.id} aria-selected={selectedDutyIds.includes(duty.id)} onClick={handleClickTag(duty.id)}>
-                {duty.name}
-              </Tag>
-            ))}
-          </JobFilterTags>
-        )}
+          {!activeRootDutyId && <div className="flex-1 flex justify-center items-center">직무를 선택해 주세요.</div>}
+
+          {activeRootDutyId && (
+            <JobFilterMenu>
+              {activeParentDuties.map((duty) => (
+                <JobFilterMenuItem
+                  key={duty.id}
+                  active={activeParentDutyId === duty.id}
+                  selected={selectedDutyIds.includes(duty.id)}
+                  duty={{
+                    id: duty.id,
+                    name: duty.name,
+                  }}
+                  hasChildren={duty.children.length > 0}
+                  selectedChildrenCount={getSelectedLeafCount(duty.id, selectedDutyIds)}
+                  onClick={handleMenuItemClick}
+                  onSelect={handleSelectItem}
+                />
+              ))}
+            </JobFilterMenu>
+          )}
+
+          {activeParentDutyId && (
+            <JobFilterTags>
+              {activeChildren.map((duty) => (
+                <Tag key={duty.id} aria-selected={selectedDutyIds.includes(duty.id)} onClick={handleClickTag(duty.id)}>
+                  {duty.name}
+                </Tag>
+              ))}
+            </JobFilterTags>
+          )}
+        </div>
       </div>
-    </div>
+    </>,
+    document.body,
   );
 }
