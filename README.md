@@ -6,14 +6,30 @@
 
 - React
   - 요구사항 중, 새로고침 없이 업데이트 되어야 한다는 점에 따라 SPA 웹앱으로 구현하면 용이하므로 해당 라이브러리 중 가장 익숙한 React를 선택하였습니다.
+- jotai
+  - 상태관리가 복잡해지지 않는 선에서, props drilling을 지양하기 위해, ui 위주의 전역 상태관리에 이용하고자 jotai를 이용하였습니다.
 - @tanstack/react-query
   - client에서 API를 통한 data 조작 시, 내장된 캐싱 기능 및 로딩, 에러 상태등을 쉽게 처리할 수 있어서 선택하였습니다.
 - tailwindcss
   - 과제가 아닐 경우, 추후 스타일 코드 등이, 서버컴포넌트 등에서도 문제없이 동작 할 수 있도록, zero-runtime 스타일 라이브러리인 tailwind css로 선택하였습니다.
+- dayjs
+  - 날짜 형식 데이터에 대한 편리한 조작을 위해 사용하였습니다.
 - (vitest)
 - vite
+  - 쾌적한 dev server 등의 이점을 얻기 위해, vite로 초기 세팅을 진행하였습니다.
 
 #### Architecture
+
+- 공통적으로, 컴포넌트의 크기가 비대해지거나, 관심사의 분리가 필요한 시점에서 리팩토링을 진행하는 방향으로 구현하였습니다.
+
+- /src/api에 axios 기본 세팅 및 service 로직을 구현하였습니다.
+- /src/store에 도메인별 jotai atom이 존재합니다.
+- /src/components/common 에 공통으로 사용되는 기본 컴포넌트가 담겨있습니다.
+  - atomic design pattern을 지향하여 구현하였고, 재사용성 및 범용성을 위해 그 자체로는 어떠한 기능이 없는 primitive한 형태로 남겨두었습니다.
+- /src/components/recruitsCalendarPage
+  - 달력 UI에는 비교적 다양한 기능을 하는 hook들이 존재하므로, 관심사와 기능 성격에 따라 서로 다른 hook으로 분리 하였습니다.
+  - /calendar 에 본 페이지의 달력 관련 컴포넌트들을 구현했습니다.
+  - /jobFilter 에 직무 필터 관련 컴포넌트들을 구현했습니다.
 
 #### Requirements
 

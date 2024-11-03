@@ -5,7 +5,7 @@ import { IRecruit } from '../../../api/services/recruits';
 import { useSetAtom } from 'jotai';
 import { detailRecruitIdAtom } from '../../../store/calendar';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Backdrop } from '../../common/Backdrop';
 
 export function RecruitDetailModal({
@@ -16,6 +16,18 @@ export function RecruitDetailModal({
   handleDirectionClick: (direction: 'prev' | 'next') => void;
 }) {
   const setDetailRecruitId = useSetAtom(detailRecruitIdAtom);
+
+  const handleClose = useCallback(() => {
+    setDetailRecruitId(null);
+  }, [setDetailRecruitId]);
+
+  const handlePrevClick = useCallback(() => {
+    handleDirectionClick('prev');
+  }, [handleDirectionClick]);
+
+  const handleNextClick = useCallback(() => {
+    handleDirectionClick('next');
+  }, [handleDirectionClick]);
 
   useEffect(() => {
     if (detailRecruitInfo === null) return;
@@ -31,11 +43,11 @@ export function RecruitDetailModal({
       <Backdrop />
       <div
         className=" fixed top-0 left-0 right-0 bottom-0 w-screen h-screen flex justify-center items-center "
-        onClick={() => setDetailRecruitId(null)}
+        onClick={handleClose}
       >
         <div className="relative min-w-[750px] w-4/5 h-screen flex flex-col  bg-white rounded-md overflow-auto">
           <div className="absolute top-3 right-5">
-            <X size={20} className="text-gray-500 cursor-pointer" onClick={() => setDetailRecruitId(null)} />
+            <X size={20} className="text-gray-500 cursor-pointer" onClick={handleClose} />
           </div>
           <div className="p-9 pb-0 flex flex-col gap-2">
             <Typography variant="content">{detailRecruitInfo.company_name}</Typography>
@@ -54,16 +66,8 @@ export function RecruitDetailModal({
           </div>
         </div>
       </div>
-      <ChevronLeft
-        className="fixed left-0 top-1/2 text-white cursor-pointer"
-        size={64}
-        onClick={() => handleDirectionClick('prev')}
-      />
-      <ChevronRight
-        className="fixed right-0 top-1/2 text-white cursor-pointer"
-        size={64}
-        onClick={() => handleDirectionClick('next')}
-      />
+      <ChevronLeft className="fixed left-0 top-1/2 text-white cursor-pointer" size={64} onClick={handlePrevClick} />
+      <ChevronRight className="fixed right-0 top-1/2 text-white cursor-pointer" size={64} onClick={handleNextClick} />
     </>,
     document.body,
   );

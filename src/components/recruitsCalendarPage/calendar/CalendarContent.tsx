@@ -1,4 +1,3 @@
-// components/CalendarContent.tsx
 import dayjs from 'dayjs';
 import { CalendarHeader } from './CalendarHeader';
 import { CalendarGrid } from './CalendarGrid';
