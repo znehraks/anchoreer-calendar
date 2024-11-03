@@ -1,7 +1,7 @@
 import { IDuty } from '../../../api/services/duties';
 
 export interface IDutyNode extends IDuty {
-  children: number[];
+  childIds: number[];
 }
 
 export interface IDutyHierarchy {

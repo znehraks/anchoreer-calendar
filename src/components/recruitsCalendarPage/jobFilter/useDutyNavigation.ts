@@ -22,7 +22,7 @@ export function useDutyNavigation(dutyHierarchy: IDutyHierarchy) {
           return;
         }
 
-        if (node.children.length === 0) {
+        if (node.childIds.length === 0) {
           onSelectItem(dutyId)(e);
           return;
         }

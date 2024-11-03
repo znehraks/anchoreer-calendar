@@ -8,7 +8,7 @@ export function useDutyHierarchy(data: IDuty[]) {
     const leafDuties = new Set<number>();
 
     data.forEach((duty) => {
-      dutyMap.set(duty.id, { ...duty, children: [] });
+      dutyMap.set(duty.id, { ...duty, childIds: [] });
       leafDuties.add(duty.id);
     });
 
@@ -16,7 +16,7 @@ export function useDutyHierarchy(data: IDuty[]) {
       if (duty.parent_id !== null) {
         const parent = dutyMap.get(duty.parent_id);
         if (parent) {
-          parent.children.push(duty.id);
+          parent.childIds.push(duty.id);
           leafDuties.delete(duty.parent_id);
         }
       }

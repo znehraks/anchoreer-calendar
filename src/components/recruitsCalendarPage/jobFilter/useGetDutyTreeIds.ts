@@ -8,7 +8,7 @@ export function useGetDutyTreeIds(dutyHierarchy: IDutyHierarchy) {
       if (!node) return [];
 
       const descendantIds: number[] = [];
-      const queue = [...node.children];
+      const queue = [...node.childIds];
 
       while (queue.length > 0) {
         const currentId = queue.shift()!;
@@ -16,7 +16,7 @@ export function useGetDutyTreeIds(dutyHierarchy: IDutyHierarchy) {
         if (!currentNode) continue;
 
         descendantIds.push(currentId);
-        queue.push(...currentNode.children);
+        queue.push(...currentNode.childIds);
       }
 
       return descendantIds;
@@ -61,7 +61,7 @@ export function useGetDutyTreeIds(dutyHierarchy: IDutyHierarchy) {
         return selectedIds.includes(nodeId) ? 1 : 0;
       }
 
-      return node.children.reduce((sum, childId) => sum + getSelectedLeafCount(childId, selectedIds), 0);
+      return node.childIds.reduce((sum, childId) => sum + getSelectedLeafCount(childId, selectedIds), 0);
     },
     [dutyHierarchy],
   );

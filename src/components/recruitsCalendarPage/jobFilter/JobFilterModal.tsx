@@ -36,7 +36,7 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
       return [];
     }
     const parent = dutyHierarchy.dutyMap.get(activeParentDutyId)!;
-    return parent.children
+    return parent.childIds
       .map((id) => dutyHierarchy.dutyMap.get(id))
       .filter((duty): duty is IDutyNode => Boolean(duty));
   }, [dutyHierarchy, activeParentDutyId]);
@@ -46,7 +46,7 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
       return [];
     }
     const root = dutyHierarchy.dutyMap.get(activeRootDutyId)!;
-    return root.children.map((id) => dutyHierarchy.dutyMap.get(id)).filter((duty): duty is IDutyNode => Boolean(duty));
+    return root.childIds.map((id) => dutyHierarchy.dutyMap.get(id)).filter((duty): duty is IDutyNode => Boolean(duty));
   }, [dutyHierarchy, activeRootDutyId]);
 
   const handleClickTag = useCallback(
@@ -84,7 +84,7 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
                   id: duty.id,
                   name: duty.name,
                 }}
-                hasChildren={duty.children.length > 0}
+                hasChildren={duty.childIds.length > 0}
                 selectedChildrenCount={getSelectedLeafCount(duty.id, selectedDutyIds)}
                 onClick={handleMenuItemClick}
                 onSelect={handleSelectItem}
@@ -105,7 +105,7 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
                     id: duty.id,
                     name: duty.name,
                   }}
-                  hasChildren={duty.children.length > 0}
+                  hasChildren={duty.childIds.length > 0}
                   selectedChildrenCount={getSelectedLeafCount(duty.id, selectedDutyIds)}
                   onClick={handleMenuItemClick}
                   onSelect={handleSelectItem}
