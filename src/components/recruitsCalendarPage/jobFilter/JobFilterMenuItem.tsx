@@ -52,7 +52,7 @@ function JobFilterMenuItem_({
   return (
     <div
       className={cn(
-        'flex flex-row items-center px-3 py-2 w-64 gap-2 cursor-pointer hover:bg-slate-100',
+        'flex flex-row items-center px-3 py-2 min-w-64 gap-2 cursor-pointer hover:bg-slate-100',
         active && 'bg-slate-100',
       )}
       role="menuitem"
