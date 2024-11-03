@@ -36,6 +36,22 @@ export function RecruitDetailModal({
     localStorage.setItem('visitedRecruitIds', JSON.stringify(newVisitedRecruitIds));
   }, [detailRecruitInfo]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevClick();
+      } else if (e.key === 'ArrowRight') {
+        handleNextClick();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleClose, handleNextClick, handlePrevClick]);
+
   if (detailRecruitInfo === null) return null;
 
   return createPortal(
