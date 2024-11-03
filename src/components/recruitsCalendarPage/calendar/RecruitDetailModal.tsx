@@ -74,7 +74,7 @@ export function RecruitDetailModal({
           </div>
         </div>
         <div className="p-9 min-h-fit">
-          <img src={detailRecruitInfo.image_url} alt="recruit" className="w-full h-96 object-cover rounded-md" />
+          <img src={detailRecruitInfo.image_url} alt="recruit" className="w-full object-cover rounded-md" />
         </div>
       </div>
       <ChevronLeft className="fixed left-0 top-1/2 text-white cursor-pointer" size={64} onClick={handlePrevClick} />
