@@ -1,10 +1,10 @@
 import { ChevronDownIcon } from 'lucide-react';
 import { Typography } from '../../common/Typography';
 import { useAtomValue } from 'jotai';
-import { selectedDutyIdsAtom } from '../../../store/jobFilter';
+import { selectedLeafDutyCountAtom } from '../../../store/jobFilter';
 
 export function JobFilterButton({ onClick }: { onClick: () => void }) {
-  const selectedDutyIds = useAtomValue(selectedDutyIdsAtom);
+  const selectedLeafDutyCount = useAtomValue(selectedLeafDutyCountAtom);
 
   return (
     <div
@@ -15,9 +15,7 @@ export function JobFilterButton({ onClick }: { onClick: () => void }) {
     >
       <div className="w-28 flex flex-col">
         <Typography variant="content">직무</Typography>
-        <Typography variant="content">
-          {selectedDutyIds.length ? `${selectedDutyIds.length}개` : `직무 선택`}
-        </Typography>
+        <Typography variant="content">{selectedLeafDutyCount ? `${selectedLeafDutyCount}개` : `직무 선택`}</Typography>
       </div>
       <ChevronDownIcon size={16} />
     </div>
