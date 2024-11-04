@@ -24,10 +24,11 @@ const typographyVariants = cva('', {
   },
 });
 
-export interface TypographyProps extends VariantProps<typeof typographyVariants> {
+export type TypographyProps = {
   className?: string;
   children?: React.ReactNode;
-}
+} & React.HTMLAttributes<HTMLSpanElement> &
+  VariantProps<typeof typographyVariants>;
 
 const TitleTypography = forwardRef<HTMLHeadingElement, TypographyProps>((props, ref) => {
   const { variant = 'title', color = 'default', weight, className, children, ...rest } = props;

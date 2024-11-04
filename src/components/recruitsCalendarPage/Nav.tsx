@@ -7,7 +7,7 @@ import { IconButton } from '../common/IconButton';
 import { Typography } from '../common/Typography';
 import { JobFilterButton } from './jobFilter/JobFilterButton';
 import { JobFilterModal } from './jobFilter/JobFilterModal';
-import { Suspense, useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { currentYearAndMonthAtom } from '../../store/calendar';
 import dayjs from 'dayjs';
@@ -27,41 +27,45 @@ export function Nav() {
 
   const handleMonthChange = useCallback(
     (direction: 'prev' | 'next') => {
-      const currentDate = dayjs(`${currentYearAndMonth.year}-${currentYearAndMonth.month}-01`);
-      const newDate = direction === 'prev' ? currentDate.subtract(1, 'month') : currentDate.add(1, 'month');
+      setCurrentYearAndMonth((prev) => {
+        const currentDate = dayjs(`${prev.year}-${prev.month}-01`);
+        const newDate = direction === 'prev' ? currentDate.subtract(1, 'month') : currentDate.add(1, 'month');
 
-      setCurrentYearAndMonth({
-        year: newDate.year(),
-        month: newDate.month() + 1,
+        return {
+          year: newDate.year(),
+          month: newDate.month() + 1,
+        };
       });
     },
-    [currentYearAndMonth, setCurrentYearAndMonth],
+    [setCurrentYearAndMonth],
   );
 
+  const formattedDate = useMemo(() => {
+    const month = String(currentYearAndMonth.month).padStart(2, '0');
+    return `${currentYearAndMonth.year}.${month}`;
+  }, [currentYearAndMonth.year, currentYearAndMonth.month]);
+
   return (
-    <div ref={navWrapperRef} className="relative w-full h-12 flex justify-center items-center">
+    <nav
+      aria-label="calendar-month-navigation"
+      ref={navWrapperRef}
+      className="relative w-full h-12 flex justify-center items-center"
+    >
       <div className="flex justify-center items-center gap-4 flex-1">
-        <IconButton>
-          <ChevronLeft className="text-gray-400" role="button" tabIndex={0} onClick={() => handleMonthChange('prev')} />
+        <IconButton aria-label="prev-month-button" onClick={() => handleMonthChange('prev')}>
+          <ChevronLeft className="text-gray-400" />
         </IconButton>
-        <Typography variant="title" color="brand">
-          {`${currentYearAndMonth.year}.${currentYearAndMonth.month}`}
+        <Typography aria-label="current-month" variant="title" color="brand">
+          {formattedDate}
         </Typography>
-        <IconButton>
-          <ChevronRight
-            className="text-gray-400"
-            role="button"
-            tabIndex={0}
-            onClick={() => {
-              handleMonthChange('next');
-            }}
-          />
+        <IconButton aria-label="next-month-button" onClick={() => handleMonthChange('next')}>
+          <ChevronRight className="text-gray-400" />
         </IconButton>
       </div>
       <JobFilterButton onClick={() => setIsFilterModalOpen((prev) => !prev)} />
       <Suspense>
         <JobFilterModal open={isFilterModalOpen} setOpen={setIsFilterModalOpen} topOffset={topOffset} />
       </Suspense>
-    </div>
+    </nav>
   );
 }
