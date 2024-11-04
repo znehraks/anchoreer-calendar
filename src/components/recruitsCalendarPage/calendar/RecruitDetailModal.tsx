@@ -2,11 +2,11 @@ import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Typography } from '../../common/Typography';
 import { IRecruit } from '../../../api/services/recruits';
-import { useSetAtom } from 'jotai';
-import { detailRecruitIdAtom } from '../../../store/calendar';
 import dayjs from 'dayjs';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Backdrop } from '../../common/Backdrop';
+import { useDetailNavigation } from './useDetailNavigation';
+import { useResetScroll } from '../../useResetScroll';
 
 export function RecruitDetailModal({
   detailRecruitInfo,
@@ -15,19 +15,9 @@ export function RecruitDetailModal({
   detailRecruitInfo: IRecruit | null;
   handleDirectionClick: (direction: 'prev' | 'next') => void;
 }) {
-  const setDetailRecruitId = useSetAtom(detailRecruitIdAtom);
+  const { handleClose, handlePrevClick, handleNextClick } = useDetailNavigation(handleDirectionClick);
 
-  const handleClose = useCallback(() => {
-    setDetailRecruitId(null);
-  }, [setDetailRecruitId]);
-
-  const handlePrevClick = useCallback(() => {
-    handleDirectionClick('prev');
-  }, [handleDirectionClick]);
-
-  const handleNextClick = useCallback(() => {
-    handleDirectionClick('next');
-  }, [handleDirectionClick]);
+  const scrollContainerRef = useResetScroll<HTMLDivElement>([detailRecruitInfo]);
 
   useEffect(() => {
     if (detailRecruitInfo === null) return;
@@ -36,28 +26,15 @@ export function RecruitDetailModal({
     localStorage.setItem('visitedRecruitIds', JSON.stringify(newVisitedRecruitIds));
   }, [detailRecruitInfo]);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleClose();
-      } else if (e.key === 'ArrowLeft') {
-        handlePrevClick();
-      } else if (e.key === 'ArrowRight') {
-        handleNextClick();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleClose, handleNextClick, handlePrevClick]);
-
   if (detailRecruitInfo === null) return null;
 
   return createPortal(
     <div className=" fixed top-0 left-0 right-0 bottom-0 w-screen h-screen flex justify-center items-center ">
       <Backdrop onClick={handleClose} />
-      <div className="relative min-w-[750px] w-4/5 h-screen flex flex-col  bg-white rounded-md overflow-auto">
+      <div
+        className="relative min-w-[750px] w-4/5 h-screen flex flex-col  bg-white rounded-md overflow-auto"
+        ref={scrollContainerRef}
+      >
         <div className="absolute top-3 right-5">
           <X size={20} className="text-gray-500 cursor-pointer" onClick={handleClose} />
         </div>
