@@ -51,6 +51,7 @@ function JobFilterMenuItem_({
 
   return (
     <div
+      aria-label={`job-filter-menu-item-${duty.name}`}
       className={cn(
         'flex flex-row items-center px-3 py-2 min-w-64 gap-2 cursor-pointer hover:bg-slate-100',
         active && 'bg-slate-100',
@@ -71,7 +72,7 @@ function JobFilterMenuItem_({
         checked={selected}
         onClick={handleCheckboxClick}
         onChange={handleChange}
-        aria-label={`Select ${duty.name}`}
+        aria-label={`job-filter-menu-item-checkbox-${duty.name}`}
       />
       <div className="flex-1 flex flex-row gap-1">
         <Typography className="truncate">{duty.name}</Typography>

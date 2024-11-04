@@ -8,6 +8,7 @@ export function JobFilterButton({ onClick }: { onClick: () => void }) {
 
   return (
     <div
+      aria-label="job-filter-button"
       role="button"
       tabIndex={0}
       onClick={onClick}

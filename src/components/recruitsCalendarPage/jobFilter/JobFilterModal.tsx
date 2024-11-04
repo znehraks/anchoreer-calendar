@@ -61,6 +61,7 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
     <>
       <Backdrop className={open ? 'block' : 'hidden'} onClick={() => setOpen(false)} />
       <div
+        aria-label="job-filter-modal"
         className={`z-10 absolute top-0 w-full h-96 bg-gray-50 px-8 pt-6 pb-9 flex flex-col gap-4 overflow-hidden`}
         style={{
           display: open ? 'flex' : 'none',
@@ -69,7 +70,7 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
       >
         <div className="flex flex-row gap-1">
           <Typography variant="content">직무</Typography>
-          <Typography variant="content" className="text-blue-500">
+          <Typography aria-label="selected-job-count" variant="content" className="text-blue-500">
             {selectedLeafCount ? `${selectedLeafCount}` : ''}
           </Typography>
         </div>
