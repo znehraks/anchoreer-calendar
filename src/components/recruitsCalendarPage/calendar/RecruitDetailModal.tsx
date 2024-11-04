@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Typography } from '../../common/Typography';
 import { IRecruit } from '../../../api/services/recruits';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Backdrop } from '../../common/Backdrop';
 import { useDetailNavigation } from './useDetailNavigation';
 import { useResetScroll } from '../../useResetScroll';
@@ -26,6 +26,11 @@ export function RecruitDetailModal({
     localStorage.setItem('visitedRecruitIds', JSON.stringify(newVisitedRecruitIds));
   }, [detailRecruitInfo]);
 
+  const remainingDays = useMemo(
+    () => (detailRecruitInfo ? dayjs(detailRecruitInfo.end_time).diff(dayjs(), 'day') : 0),
+    [detailRecruitInfo],
+  );
+
   if (detailRecruitInfo === null) return null;
 
   return createPortal(
@@ -47,7 +52,7 @@ export function RecruitDetailModal({
             <Typography variant="detail" color="gray">
               {detailRecruitInfo.start_time} ~ {detailRecruitInfo.end_time}
             </Typography>
-            <Typography className="text-red-400">{`(${dayjs(detailRecruitInfo.end_time).diff(dayjs(), 'day')}일 남음)`}</Typography>
+            <Typography className="text-red-400">{`(${Math.abs(remainingDays)}일 ${remainingDays > 0 ? '남음' : '지남'})`}</Typography>
           </div>
         </div>
         <div className="p-9 min-h-fit">
