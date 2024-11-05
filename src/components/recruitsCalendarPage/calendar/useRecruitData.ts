@@ -1,6 +1,6 @@
 import { IRecruit, useGetRecruits } from '../../../api/services/recruits';
 import { useAtomValue } from 'jotai';
-import { selectedDutyIdsAtom } from '../../../store/jobFilter';
+import { selectedDutyIdsAtom } from '../../../store/dutyFilter';
 import { visibleDatesAtom } from '../../../store/calendar';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';

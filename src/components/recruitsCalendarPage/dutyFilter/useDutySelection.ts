@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { IDutyHierarchy } from './types';
-import { selectedDutyIdsAtom, selectedLeafDutyCountAtom } from '../../../store/jobFilter';
+import { selectedDutyIdsAtom, selectedLeafDutyCountAtom } from '../../../store/dutyFilter';
 import { useGetDutyTreeIds } from './useGetDutyTreeIds';
 
 export function useDutySelection(dutyHierarchy: IDutyHierarchy) {

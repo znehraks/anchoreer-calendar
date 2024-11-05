@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { IDuty } from '../src/api/services/duties';
 
-test.describe('job filter test', () => {
+test.describe('duty filter test', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.addInitScript(() => {
@@ -887,18 +887,18 @@ test.describe('job filter test', () => {
     });
   });
 
-  test('open job filter', async ({ page }) => {
-    await page.click('[aria-label="job-filter-button"]');
-    await page.waitForSelector('[aria-label="job-filter-modal"]');
-    await expect(page.locator('[aria-label="job-filter-modal"]')).toBeVisible();
+  test('open duty filter', async ({ page }) => {
+    await page.click('[aria-label="duty-filter-button"]');
+    await page.waitForSelector('[aria-label="duty-filter-modal"]');
+    await expect(page.locator('[aria-label="duty-filter-modal"]')).toBeVisible();
   });
 
-  test('load job filter item', async ({ page }) => {
+  test('load duty filter item', async ({ page }) => {
     const responsePromise = page.waitForResponse((response) => {
       return response.url().includes('/api/duties');
     });
 
-    await page.click('[aria-label="job-filter-button"]');
+    await page.click('[aria-label="duty-filter-button"]');
 
     const response = await responsePromise;
     const duties = await response.json();
@@ -910,15 +910,15 @@ test.describe('job filter test', () => {
       return response.url().includes('/api/duties');
     });
 
-    await page.click('[aria-label="job-filter-button"]');
+    await page.click('[aria-label="duty-filter-button"]');
 
     const response = await responsePromise;
     const duties = await response.json();
     const firstRootDuty = duties.find((duty: IDuty) => duty.parent_id === null);
-    const firstRootDutyElement = page.locator(`[aria-label="job-filter-menu-item-checkbox-${firstRootDuty.name}"]`);
+    const firstRootDutyElement = page.locator(`[aria-label="duty-filter-menu-item-checkbox-${firstRootDuty.name}"]`);
     await firstRootDutyElement.click();
 
-    const jobCount = await page.locator('[aria-label="selected-job-count"]').innerText();
-    expect(jobCount).toBe('25');
+    const dutyCount = await page.locator('[aria-label="selected-duty-count"]').innerText();
+    expect(dutyCount).toBe('25');
   });
 });

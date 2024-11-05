@@ -1,14 +1,14 @@
 import { ChevronDownIcon } from 'lucide-react';
 import { Typography } from '../../common/Typography';
 import { useAtomValue } from 'jotai';
-import { selectedLeafDutyCountAtom } from '../../../store/jobFilter';
+import { selectedLeafDutyCountAtom } from '../../../store/dutyFilter';
 
-export function JobFilterButton({ onClick }: { onClick: () => void }) {
+export function DutyFilterButton({ onClick }: { onClick: () => void }) {
   const selectedLeafDutyCount = useAtomValue(selectedLeafDutyCountAtom);
 
   return (
     <div
-      aria-label="job-filter-button"
+      aria-label="duty-filter-button"
       role="button"
       tabIndex={0}
       onClick={onClick}

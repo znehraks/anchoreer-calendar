@@ -5,8 +5,8 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { IconButton } from '../common/IconButton';
 import { Typography } from '../common/Typography';
-import { JobFilterButton } from './jobFilter/JobFilterButton';
-import { JobFilterModal } from './jobFilter/JobFilterModal';
+import { DutyFilterButton } from './dutyFilter/DutyFilterButton';
+import { DutyFilterModal } from './dutyFilter/DutyFilterModal';
 import { Suspense, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { currentYearAndMonthAtom } from '../../store/calendar';
@@ -62,9 +62,9 @@ export function Nav() {
           <ChevronRight className="text-gray-400" />
         </IconButton>
       </div>
-      <JobFilterButton onClick={() => setIsFilterModalOpen((prev) => !prev)} />
+      <DutyFilterButton onClick={() => setIsFilterModalOpen((prev) => !prev)} />
       <Suspense>
-        <JobFilterModal open={isFilterModalOpen} setOpen={setIsFilterModalOpen} topOffset={topOffset} />
+        <DutyFilterModal open={isFilterModalOpen} setOpen={setIsFilterModalOpen} topOffset={topOffset} />
       </Suspense>
     </nav>
   );

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useAtom } from 'jotai';
 import { IDutyHierarchy } from './types';
-import { activeParentDutyIdAtom, activeRootDutyIdAtom } from '../../../store/jobFilter';
+import { activeParentDutyIdAtom, activeRootDutyIdAtom } from '../../../store/dutyFilter';
 
 export function useDutyNavigation(dutyHierarchy: IDutyHierarchy) {
   const [activeRootDutyId, setActiveRootDutyId] = useAtom(activeRootDutyIdAtom);

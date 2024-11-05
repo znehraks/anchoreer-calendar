@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { Tag } from '../../common/Tag';
 import { Typography } from '../../common/Typography';
-import { JobFilterMenu } from './JobFilterMenu';
-import { JobFilterMenuItem } from './JobFilterMenuItem';
-import { JobFilterTags } from './JobFilterTags';
+import { DutyFilterMenu } from './DutyFilterMenu';
+import { JobFilterMenuItem } from './DutyFilterMenuItem';
+import { DutyFilterTags } from './DutyFilterTags';
 import { IDutyNode } from './types';
 import { useDutyHierarchy } from './useDutyHierarchy';
 import { useDutyNavigation } from './useDutyNavigation';
@@ -13,13 +13,13 @@ import { useGetDuties } from '../../../api/services/duties';
 import { Backdrop } from '../../common/Backdrop';
 import { createPortal } from 'react-dom';
 
-interface JobFilterModalProps {
+interface DutyFilterModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   topOffset: number | null;
 }
 
-export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps) {
+export function DutyFilterModal({ open, setOpen, topOffset }: DutyFilterModalProps) {
   const { data: duties } = useGetDuties();
   const dutyHierarchy = useDutyHierarchy(duties);
   const { activeRootDutyId, activeParentDutyId, createHandleMenuItemClick } = useDutyNavigation(dutyHierarchy);
@@ -61,7 +61,7 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
     <>
       <Backdrop className={open ? 'block' : 'hidden'} onClick={() => setOpen(false)} />
       <div
-        aria-label="job-filter-modal"
+        aria-label="duty-filter-modal"
         className={`z-10 absolute top-0 w-full h-96 bg-gray-50 px-8 pt-6 pb-9 flex flex-col gap-4 overflow-hidden`}
         style={{
           display: open ? 'flex' : 'none',
@@ -70,12 +70,12 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
       >
         <div className="flex flex-row gap-1">
           <Typography variant="content">직무</Typography>
-          <Typography aria-label="selected-job-count" variant="content" className="text-blue-500">
+          <Typography aria-label="selected-duty-count" variant="content" className="text-blue-500">
             {selectedLeafCount ? `${selectedLeafCount}` : ''}
           </Typography>
         </div>
         <div className="flex-1 flex flex-row rounded-md border-2 min-h-0">
-          <JobFilterMenu>
+          <DutyFilterMenu>
             {dutyHierarchy.rootDuties.map((duty) => (
               <JobFilterMenuItem
                 key={duty.id}
@@ -91,12 +91,12 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
                 onSelect={handleSelectItem}
               />
             ))}
-          </JobFilterMenu>
+          </DutyFilterMenu>
 
           {!activeRootDutyId && <div className="flex-1 flex justify-center items-center">직무를 선택해 주세요.</div>}
 
           {activeRootDutyId && (
-            <JobFilterMenu>
+            <DutyFilterMenu>
               {activeParentDuties.map((duty) => (
                 <JobFilterMenuItem
                   key={duty.id}
@@ -112,17 +112,17 @@ export function JobFilterModal({ open, setOpen, topOffset }: JobFilterModalProps
                   onSelect={handleSelectItem}
                 />
               ))}
-            </JobFilterMenu>
+            </DutyFilterMenu>
           )}
 
           {activeParentDutyId && (
-            <JobFilterTags>
+            <DutyFilterTags>
               {activeChildren.map((duty) => (
                 <Tag key={duty.id} aria-selected={selectedDutyIds.includes(duty.id)} onClick={handleClickTag(duty.id)}>
                   {duty.name}
                 </Tag>
               ))}
-            </JobFilterTags>
+            </DutyFilterTags>
           )}
         </div>
       </div>

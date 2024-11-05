@@ -44,7 +44,7 @@
   - /src/components/recruitsCalendarPage
     - 달력 UI에는 비교적 다양한 기능을 하는 hook들이 존재하므로, 관심사와 기능 성격에 따라 서로 다른 hook으로 분리 하였습니다.
     - /calendar 에 본 페이지의 달력 관련 컴포넌트들을 구현했습니다.
-  - /jobFilter 에 직무 필터 관련 컴포넌트들을 구현했습니다.
+  - /dutyFilter 에 직무 필터 관련 컴포넌트들을 구현했습니다.
 
 #### ToDoList
 

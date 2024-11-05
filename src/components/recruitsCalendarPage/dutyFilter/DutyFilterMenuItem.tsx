@@ -4,7 +4,7 @@ import { Typography } from '../../common/Typography';
 import { cn } from '../../../utils';
 import { memo, useCallback, useMemo } from 'react';
 
-interface JobFilterMenuItemProps {
+interface DutyFilterMenuItemProps {
   active: boolean;
   selected: boolean;
   duty: {
@@ -17,7 +17,7 @@ interface JobFilterMenuItemProps {
   onSelect: (dutyId: number) => (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function JobFilterMenuItem_({
+function DutyFilterMenuItem_({
   active,
   selected,
   duty,
@@ -25,7 +25,7 @@ function JobFilterMenuItem_({
   selectedChildrenCount = 0,
   onClick,
   onSelect,
-}: JobFilterMenuItemProps) {
+}: DutyFilterMenuItemProps) {
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       onClick(duty.id)(e);
@@ -51,7 +51,7 @@ function JobFilterMenuItem_({
 
   return (
     <div
-      aria-label={`job-filter-menu-item-${duty.name}`}
+      aria-label={`duty-filter-menu-item-${duty.name}`}
       className={cn(
         'flex flex-row items-center px-3 py-2 min-w-64 gap-2 cursor-pointer hover:bg-slate-100',
         active && 'bg-slate-100',
@@ -72,7 +72,7 @@ function JobFilterMenuItem_({
         checked={selected}
         onClick={handleCheckboxClick}
         onChange={handleChange}
-        aria-label={`job-filter-menu-item-checkbox-${duty.name}`}
+        aria-label={`duty-filter-menu-item-checkbox-${duty.name}`}
       />
       <div className="flex-1 flex flex-row gap-1">
         <Typography className="truncate">{duty.name}</Typography>
@@ -83,7 +83,7 @@ function JobFilterMenuItem_({
   );
 }
 
-const arePropsEqual = (prev: JobFilterMenuItemProps, next: JobFilterMenuItemProps): boolean => {
+const arePropsEqual = (prev: DutyFilterMenuItemProps, next: DutyFilterMenuItemProps): boolean => {
   return (
     prev.duty.id === next.duty.id &&
     prev.active === next.active &&
@@ -94,4 +94,4 @@ const arePropsEqual = (prev: JobFilterMenuItemProps, next: JobFilterMenuItemProp
   );
 };
 
-export const JobFilterMenuItem = memo(JobFilterMenuItem_, arePropsEqual);
+export const JobFilterMenuItem = memo(DutyFilterMenuItem_, arePropsEqual);
